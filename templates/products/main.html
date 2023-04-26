@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}  {% endblock title %}
+
+{% block content %}
+
+{% comment %} <div class="ui modal mymodal">
+  <div class="header">Narxlar jadvali</div>
+  <div class="ui container">
+    <p>test1</p>
+    <p>test2</p>
+    <p>test3</p>
+  </div>
+</div> {% endcomment %}
+<div>
+    {% if error_message %}
+    <div class="ui negative message">
+      <i class="close icon"></i>
+      <div class="header">
+        {{ error_message }}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if request.POST %}
+      {% if graph %}
+      <img src="data:image/png;base64, {{ graph | safe }}">
+      {% endif %}
+    {% endif %}
+    {% comment %} <div>{{ price.mean | floatformat}}   o'rtacha narx</div>
+    <br>
+    {{ price.std | floatformat}} narxlarni o'rtacha siljishi
+    <br>
+    {{ price.median | floatformat}} o'rtacha narx
+    <br>
+    {{ price.min }} eng arzon sotuv
+    <br>
+    {{ price.max}} eng qimmat sotuv
+    <br>
+    {{ price.count }} kunlik savdolar soni {% endcomment %}
+    <form action="" method="POST" class="ui form">
+    {% csrf_token %}
+        <div class="field">
+            <label> O'zingizga maqul jadval turini tanlang: </label>
+            <div class="ui selection dropdown">
+                <input type="hidden" name="sales">
+                <i class="dropdown icon"></i>
+                <div class="default text">Jadval turini tanlang</div>
+                    <div class="menu">
+                        <div class="item" value="bar">Bar plot</div>
+                        <div class="item" value="line">Line plot</div>
+                        <div class="item" value="count">Count plot</div>
+                    </div>
+                
+            </div>
+        </div> 
+        <div class="field">
+            <div class="two fields">
+              <div class="field"> 
+                <label> Sanadan </label>
+                <input type="date" name="date_from">
+              </div>
+              <div class="field">
+                <label> Sanagacha </label>
+                <input type="date" name="date_to">
+              </div>
+            </div>
+          </div>
+        <button class="ui primary button" type="submit">Tanlash</button>
+    </form>
+    {% comment %} <button class="ui secondary button" id="modal-btn">Natijani ko'rish</button> {% endcomment %}
+    <a href={% url 'products:add-purchase-view' %}> <button class="ui positive button"> Savdo hisobotlarini kiritish </button></a>
+</div>
+{% endblock content %}
